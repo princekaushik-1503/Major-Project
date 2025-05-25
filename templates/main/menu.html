@@ -1,0 +1,429 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Menu - Restaurant{% endblock %}
+
+{% block content %}
+<!-- Menu Hero Section -->
+<section class="hero-section position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative">
+        <div class="hero-content text-center text-white">
+            <h1 class="display-4 fw-bold mb-4">Our Menu</h1>
+            <p class="lead mb-4">Discover our exquisite dishes</p>
+        </div>
+    </div>
+</section>
+
+<!-- Cart Summary (Fixed Position) -->
+<div class="cart-summary" id="cartSummary">
+    <div class="cart-header">
+        <h5><i class="fas fa-shopping-cart"></i> Your Order</h5>
+        <button class="btn-close" onclick="toggleCart()"></button>
+    </div>
+    <div class="cart-items" id="cartItems">
+        <!-- Cart items will be added here dynamically -->
+    </div>
+    <div class="cart-totals">
+        <div class="subtotal">
+            <span>Subtotal:</span>
+            <span id="subtotal">₹0.00</span>
+        </div>
+        <div class="gst">
+            <span>GST (18%):</span>
+            <span id="gst">₹0.00</span>
+        </div>
+        <div class="total">
+            <span>Total:</span>
+            <span id="total">₹0.00</span>
+        </div>
+    </div>
+    <div class="cart-actions">
+        <button class="btn btn-primary w-100" onclick="proceedToCheckout()">
+            <i class="fas fa-credit-card me-2"></i>Proceed to Payment
+        </button>
+    </div>
+</div>
+
+<!-- Menu Sections -->
+<section class="py-5">
+    <div class="container">
+        <!-- Starters Section -->
+        <div class="menu-section mb-5">
+            <h2 class="section-title text-center mb-4">Starters</h2>
+            <div class="row g-4">
+                {% for item in starters %}
+                <div class="col-md-4">
+                    <div class="menu-item card h-100">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">₹{{ item.price }}</span>
+                                <button class="btn btn-primary add-to-cart" data-id="{{ item.id }}">
+                                    <i class="fas fa-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Main Courses Section -->
+        <div class="menu-section mb-5">
+            <h2 class="section-title text-center mb-4">Main Courses</h2>
+            <div class="row g-4">
+                {% for item in main_courses %}
+                <div class="col-md-4">
+                    <div class="menu-item card h-100">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">₹{{ item.price }}</span>
+                                <button class="btn btn-primary add-to-cart" data-id="{{ item.id }}">
+                                    <i class="fas fa-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Desserts Section -->
+        <div class="menu-section mb-5">
+            <h2 class="section-title text-center mb-4">Desserts</h2>
+            <div class="row g-4">
+                {% for item in desserts %}
+                <div class="col-md-4">
+                    <div class="menu-item card h-100">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">₹{{ item.price }}</span>
+                                <button class="btn btn-primary add-to-cart" data-id="{{ item.id }}">
+                                    <i class="fas fa-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Fine Wines Section -->
+        <div class="menu-section">
+            <h2 class="section-title text-center mb-4">Fine Wines</h2>
+            <div class="row g-4">
+                {% for item in wines %}
+                <div class="col-md-4">
+                    <div class="menu-item card h-100">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">₹{{ item.price }}</span>
+                                <button class="btn btn-primary add-to-cart" data-id="{{ item.id }}">
+                                    <i class="fas fa-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3');
+    background-size: cover;
+    background-position: center;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.menu-item {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+}
+
+.menu-item img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Cart Styles */
+.cart-summary {
+    position: fixed;
+    right: -400px;
+    top: 0;
+    width: 400px;
+    height: 100vh;
+    background: white;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    padding: 20px;
+}
+
+.cart-summary.active {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cart-items {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-totals {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+.cart-totals > div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.cart-actions {
+    margin-top: 20px;
+}
+
+/* Floating Cart Button */
+.cart-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 999;
+}
+
+.cart-toggle i {
+    font-size: 1.5rem;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: white;
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let cart = [];
+const GST_RATE = 0.18;  // 18% GST
+
+function toggleCart() {
+    document.getElementById('cartSummary').classList.toggle('active');
+}
+
+function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    document.getElementById('cartCount').textContent = count;
+}
+
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cartItems');
+    cartItems.innerHTML = '';
+    
+    cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'cart-item';
+        itemElement.innerHTML = `
+            <div class="cart-item-details">
+                <h6>${item.name}</h6>
+                <p class="mb-0">₹${item.price}</p>
+            </div>
+            <div class="cart-item-quantity">
+                <button class="btn btn-sm btn-outline-primary" onclick="updateQuantity(${item.id}, -1)">-</button>
+                <span>${item.quantity}</span>
+                <button class="btn btn-sm btn-outline-primary" onclick="updateQuantity(${item.id}, 1)">+</button>
+            </div>
+        `;
+        cartItems.appendChild(itemElement);
+    });
+
+    updateTotals();
+    updateCartCount();
+}
+
+function updateTotals() {
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const gst = subtotal * GST_RATE;
+    const total = subtotal + gst;
+
+    document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+    document.getElementById('gst').textContent = `₹${gst.toFixed(2)}`;
+    document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function addToCart(itemId) {
+    const csrftoken = getCookie('csrftoken');
+    
+    fetch(`/cart/add/${itemId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrftoken
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Show success message
+            alert(data.message);
+            // Update cart count in navigation
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                cartCount.textContent = data.cart_total;
+            }
+        } else {
+            alert(data.message || 'Error adding item to cart');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error adding item to cart. Please try again.');
+    });
+}
+
+function updateQuantity(id, change) {
+    const item = cart.find(item => item.id === id);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            cart = cart.filter(i => i.id !== id);
+        }
+        updateCartDisplay();
+    }
+}
+
+function proceedToCheckout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+
+    // Here you would typically redirect to a checkout page or open a payment modal
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * (1 + GST_RATE);
+    alert(`Proceeding to payment. Total amount: ₹${total.toFixed(2)}`);
+}
+
+// Add event listeners to all "Add to Cart" buttons
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            addToCart(id);
+        });
+    });
+});
+</script>
+{% endblock %} 

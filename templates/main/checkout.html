@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - Restaurant{% endblock %}
+
+{% block content %}
+<!-- Checkout Hero Section -->
+<section class="hero-section position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative">
+        <div class="hero-content text-center text-white">
+            <h1 class="display-4 fw-bold mb-4">Checkout</h1>
+            <p class="lead mb-4">Complete your order</p>
+        </div>
+    </div>
+</section>
+
+<!-- Checkout Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Payment Form -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Payment Details</h4>
+                        <form id="payment-form" method="POST">
+                            {% csrf_token %}
+                            
+                            <!-- Card Number -->
+                            <div class="mb-4">
+                                <label class="form-label">Card Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                                    <input type="text" class="form-control" id="card-number" placeholder="1234 5678 9012 3456" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Expiry Date -->
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label">Expiry Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                        <input type="text" class="form-control" id="expiry-date" placeholder="MM/YY" required>
+                                    </div>
+                                </div>
+
+                                <!-- CVV -->
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label">CVV</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                        <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Name on Card -->
+                            <div class="mb-4">
+                                <label class="form-label">Name on Card</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="card-name" placeholder="John Doe" required>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="mb-4">
+                                <label class="form-label">Delivery Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    <textarea class="form-control" id="address" rows="3" placeholder="Enter your delivery address" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="mb-4">
+                                <label class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+91 1234567890" required>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                                <i class="fas fa-lock me-2"></i>Pay ₹{{ cart.total }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h4 class="mb-4">Order Summary</h4>
+                        
+                        <!-- Order Items -->
+                        <div class="order-items mb-4">
+                            {% for item in cart.items.all %}
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div>
+                                        <h6 class="mb-0">{{ item.menu_item.name }}</h6>
+                                        <small class="text-muted">Qty: {{ item.quantity }}</small>
+                                    </div>
+                                    <span>₹{{ item.total_price }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <hr>
+
+                        <!-- Totals -->
+                        <div class="order-totals">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <span>₹{{ cart.subtotal }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>GST (18%)</span>
+                                <span>₹{{ cart.gst }}</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="fw-bold">Total</span>
+                                <span class="fw-bold text-primary">₹{{ cart.total }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Methods -->
+                        <div class="payment-methods">
+                            <h6 class="mb-3">Accepted Payment Methods</h6>
+                            <div class="d-flex gap-2">
+                                <i class="fab fa-cc-visa fa-2x text-primary"></i>
+                                <i class="fab fa-cc-mastercard fa-2x text-primary"></i>
+                                <i class="fab fa-cc-amex fa-2x text-primary"></i>
+                                <i class="fab fa-cc-paypal fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Payment QR Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentModalLabel">Scan & Pay</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="/static/qr_sagar_upi.jpg" alt="UPI QR Code" class="img-fluid mb-3" style="max-width: 300px;">
+        <p class="mb-1"><strong>Sagar So Karan</strong></p>
+        <p class="mb-1">6395702318@ptaxis</p>
+        <p class="mb-1">Airtel Payments Bank - 2318</p>
+        <p class="text-muted">Scan this QR code with any UPI app to pay.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success w-100" id="paymentSuccessBtn">Payment Successful</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.input-group-text {
+    background-color: transparent;
+    border-right: none;
+}
+
+.form-control {
+    border-left: none;
+}
+
+.form-control:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}
+
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.input-group:focus-within .input-group-text,
+.input-group:focus-within .form-control {
+    border-color: #86b7fe;
+}
+
+.payment-methods {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('paymentSuccessBtn').addEventListener('click', function() {
+    // Close the modal
+    var modal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+    modal.hide();
+    // Submit the form
+    document.getElementById('payment-form').submit();
+});
+
+// Format card number
+document.getElementById('card-number').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formattedValue = '';
+    for(let i = 0; i < value.length; i++) {
+        if(i > 0 && i % 4 === 0) {
+            formattedValue += ' ';
+        }
+        formattedValue += value[i];
+    }
+    e.target.value = formattedValue;
+});
+
+// Format expiry date
+document.getElementById('expiry-date').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if(value.length > 2) {
+        value = value.slice(0,2) + '/' + value.slice(2,4);
+    }
+    e.target.value = value;
+});
+
+// Format phone number
+document.getElementById('phone').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if(value.length > 0) {
+        value = '+91 ' + value;
+    }
+    e.target.value = value;
+});
+</script>
+{% endblock %} 

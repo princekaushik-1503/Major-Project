@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}My Reservations - Restaurant{% endblock %}
+
+{% block content %}
+<!-- Reservations Hero Section -->
+<section class="hero-section position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative">
+        <div class="hero-content text-center text-white">
+            <h1 class="display-4 fw-bold mb-4">My Reservations</h1>
+            <p class="lead mb-4">View and manage your table reservations</p>
+        </div>
+    </div>
+</section>
+
+<!-- Reservations Section -->
+<section class="py-5">
+    <div class="container">
+        {% if reservations %}
+            <div class="row">
+                {% for reservation in reservations %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ reservation.table.name }}</h5>
+                                <p class="card-text">
+                                    <strong>Date:</strong> {{ reservation.date }}<br>
+                                    <strong>Time:</strong> {{ reservation.time }}<br>
+                                    <strong>Guests:</strong> {{ reservation.guests }}<br>
+                                    <strong>Status:</strong> 
+                                    <span class="badge {% if reservation.status == 'confirmed' %}bg-success{% elif reservation.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
+                                        {{ reservation.status|title }}
+                                    </span>
+                                </p>
+                                {% if reservation.status == 'pending' %}
+                                    <button class="btn btn-danger btn-sm" onclick="cancelReservation({{ reservation.id }})">
+                                        Cancel Reservation
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-calendar-alt fa-3x mb-3 text-muted"></i>
+                <h3>No Reservations Found</h3>
+                <p class="text-muted">You haven't made any table reservations yet</p>
+                <a href="{% url 'book_table' %}" class="btn btn-primary">Book a Table</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function cancelReservation(reservationId) {
+    if (confirm('Are you sure you want to cancel this reservation?')) {
+        fetch(`/reservations/cancel/${reservationId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert(data.message || 'Error cancelling reservation');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error cancelling reservation. Please try again.');
+        });
+    }
+}
+</script>
+{% endblock %} 

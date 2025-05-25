@@ -1,0 +1,691 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Home - Restaurant{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative">
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3" class="hero-image" alt="Restaurant">
+    <div class="hero-content">
+        <h1 class="display-3 fw-bold text-uppercase">Welcome To</h1>
+        <h2 class="display-1 fw-bold text-uppercase mb-4">Black's Stone Restaurant</h2>
+        <p class="lead fs-4">Experience the finest dining with our exquisite cuisine</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{% url 'book_table' %}" class="btn btn-primary btn-lg px-5">Reserve a Table</a>
+            <a href="{% url 'menu' %}" class="btn btn-outline-light btn-lg px-5">View Menu</a>
+        </div>
+    </div>
+</section>
+
+<!-- Welcome Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="display-6 fw-bold mb-4">Welcome to Our Restaurant</h2>
+                <p class="lead mb-4">Experience the perfect blend of traditional flavors and modern culinary techniques.</p>
+                <div class="row g-4 mb-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-utensils fa-2x text-primary me-3"></i>
+                            <div>
+                                <h5 class="mb-0">Fine Dining</h5>
+                                <p class="mb-0 text-muted">Exquisite Cuisine</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-glass-cheers fa-2x text-primary me-3"></i>
+                            <div>
+                                <h5 class="mb-0">Special Events</h5>
+                                <p class="mb-0 text-muted">Celebrations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock fa-2x text-primary me-3"></i>
+                            <div>
+                                <h5 class="mb-0">Open Daily</h5>
+                                <p class="mb-0 text-muted">11:00 AM - 11:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary me-3"></i>
+                            <div>
+                                <h5 class="mb-0">Location</h5>
+                                <p class="mb-0 text-muted">City Center</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'about' %}" class="btn btn-primary">Learn More</a>
+            </div>
+            <div class="col-md-6">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0" class="img-fluid rounded-3 shadow" alt="Restaurant Interior">
+                    <div class="position-absolute top-0 start-0 translate-middle p-3 bg-primary text-white rounded-circle">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 order-md-2">
+                <h2 class="display-6 fw-bold mb-4">Our Story</h2>
+                <p class="lead mb-4">Founded in 1995, our restaurant has been serving the finest steaks and seafood for over 25 years. Our commitment to quality and exceptional service has made us a favorite destination for food lovers.</p>
+                <div class="row g-4">
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h3 class="display-4 fw-bold text-primary">25+</h3>
+                            <p class="mb-0">Years of Excellence</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h3 class="display-4 fw-bold text-primary">50k+</h3>
+                            <p class="mb-0">Happy Customers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 order-md-1">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" class="img-fluid rounded-3 shadow" alt="Our Story">
+                    <div class="position-absolute bottom-0 end-0 translate-middle p-3 bg-primary text-white rounded-circle">
+                        <i class="fas fa-award"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Special Offers Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center display-6 fw-bold mb-5">Today's Special Offers</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card offer-card h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="offer-icon mb-3">
+                            <i class="fas fa-percentage fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="text-danger mb-3">20% OFF</h3>
+                        <p class="mb-2">On all main course items</p>
+                        <p class="small text-muted">Valid till 10 PM today</p>
+                        <a href="{% url 'menu' %}" class="btn btn-outline-primary mt-3">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card offer-card h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="offer-icon mb-3">
+                            <i class="fas fa-birthday-cake fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="text-danger mb-3">Free Dessert</h3>
+                        <p class="mb-2">With any main course</p>
+                        <p class="small text-muted">Weekend special</p>
+                        <a href="{% url 'menu' %}" class="btn btn-outline-primary mt-3">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card offer-card h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="offer-icon mb-3">
+                            <i class="fas fa-users fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="text-danger mb-3">Family Package</h3>
+                        <p class="mb-2">4 people - 20% off</p>
+                        <p class="small text-muted">Book in advance</p>
+                        <a href="{% url 'book_table' %}" class="btn btn-outline-primary mt-3">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center display-6 fw-bold mb-5">Why Choose Us</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-award fa-3x text-primary"></i>
+                    </div>
+                    <h4>Premium Quality</h4>
+                    <p class="text-muted">USDA Prime beef and fresh ingredients</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-clock fa-3x text-primary"></i>
+                    </div>
+                    <h4>Quick Service</h4>
+                    <p class="text-muted">Fast and efficient dining experience</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-star fa-3x text-primary"></i>
+                    </div>
+                    <h4>Expert Chefs</h4>
+                    <p class="text-muted">Award-winning culinary team</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-wine-glass-alt fa-3x text-primary"></i>
+                    </div>
+                    <h4>Fine Wines</h4>
+                    <p class="text-muted">Extensive wine collection</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Instagram Feed Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center display-6 fw-bold mb-5">Follow Us on Instagram</h2>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="instagram-card">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947" class="img-fluid" alt="Instagram Post">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="instagram-card">
+                    <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330" class="img-fluid" alt="Instagram Post">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="instagram-card">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" class="img-fluid" alt="Instagram Post">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="instagram-card">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0" class="img-fluid" alt="Instagram Post">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-outline-primary">View More on Instagram</a>
+        </div>
+    </div>
+</section>
+
+<!-- Customer Reviews Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center display-6 fw-bold mb-5">What Our Customers Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <img src="/static/image/prince.jpg" alt="Customer" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="review-info">
+                            <h5 class="mb-0">Prince Kaushik</h5>
+                            <div class="review-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">"The best steakhouse in town! The ribeye was perfectly cooked and the service was exceptional. Will definitely be coming back for more!"</p>
+                    <div class="review-date">
+                        <small class="text-muted">Posted 2 days ago</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Customer" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="review-info">
+                            <h5 class="mb-0">Michael Chen</h5>
+                            <div class="review-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">"Amazing atmosphere and the wine selection is outstanding. The staff went above and beyond to make our anniversary special."</p>
+                    <div class="review-date">
+                        <small class="text-muted">Posted 1 week ago</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="review-info">
+                            <h5 class="mb-0">Emily Rodriguez</h5>
+                            <div class="review-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="review-text">"The seafood platter was incredible! Fresh, perfectly cooked, and beautifully presented. The ambiance is perfect for a romantic dinner."</p>
+                    <div class="review-date">
+                        <small class="text-muted">Posted 3 days ago</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="#" class="btn btn-primary btn-lg px-5">Read More Reviews</a>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2 class="display-6 fw-bold mb-4">Join Our VIP Club</h2>
+                <p class="lead mb-4">Get exclusive access to special events, promotions, and member-only offers</p>
+                <form class="newsletter-form">
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="email" class="form-control form-control-lg" placeholder="Enter your email">
+                                <button class="btn btn-light btn-lg" type="submit">Join Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-4">
+                    <p class="mb-0">Follow us on social media</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    height: 100vh;
+    position: relative;
+    margin-top: -76px;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    width: 100%;
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.hero-content h1,
+.hero-content h2,
+.hero-content p {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.menu-item-image {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+}
+
+.menu-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.menu-item:hover .menu-item-image img {
+    transform: scale(1.1);
+}
+
+.menu-item-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.offer-card {
+    border: none;
+    transition: transform 0.3s;
+}
+
+.offer-card:hover {
+    transform: translateY(-10px);
+}
+
+.offer-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    border: none;
+    transition: transform 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+}
+
+.testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.btn {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.display-1, .display-3, .display-4, .display-6 {
+    font-family: 'Playfair Display', serif;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: 80vh;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content h2 {
+        font-size: 2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+}
+
+.feature-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.instagram-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    aspect-ratio: 1;
+}
+
+.instagram-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.instagram-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.instagram-card:hover .instagram-overlay {
+    opacity: 1;
+}
+
+.instagram-card:hover img {
+    transform: scale(1.1);
+}
+
+.instagram-overlay i {
+    color: white;
+    font-size: 2rem;
+}
+
+.review-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.review-card::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 5rem;
+    color: rgba(13, 110, 253, 0.1);
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.review-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.review-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-right: 1rem;
+}
+
+.review-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-info {
+    flex: 1;
+}
+
+.review-info h5 {
+    font-weight: 600;
+    color: #333;
+}
+
+.review-rating {
+    margin-top: 0.5rem;
+}
+
+.review-rating i {
+    font-size: 0.9rem;
+    margin-right: 2px;
+}
+
+.review-text {
+    color: #555;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.review-date {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+@media (max-width: 768px) {
+    .review-card {
+        padding: 1.5rem;
+    }
+    
+    .review-text {
+        font-size: 1rem;
+    }
+    
+    .review-avatar {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.newsletter-form .form-control {
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.newsletter-form .btn {
+    padding: 1rem 2rem;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: white;
+    color: #0d6efd !important;
+    transform: translateY(-3px);
+}
+</style>
+{% endblock %} 

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Book a Table - Restaurant{% endblock %}
+
+{% block content %}
+<!-- Booking Hero Section -->
+<section class="hero-section position-relative">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative">
+        <div class="hero-content text-center text-white">
+            <h1 class="display-4 fw-bold mb-4">Book a Table</h1>
+            <p class="lead mb-4">Reserve your perfect dining experience</p>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Form Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <h3 class="text-center mb-4">Make a Reservation</h3>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Date -->
+                            <div class="mb-4">
+                                <label class="form-label">Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    <input type="date" name="date" class="form-control" required min="{{ today_date|date:'Y-m-d' }}">
+                                </div>
+                            </div>
+
+                            <!-- Time -->
+                            <div class="mb-4">
+                                <label class="form-label">Time</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                    <input type="time" name="time" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Number of Guests -->
+                            <div class="mb-4">
+                                <label class="form-label">Number of Guests</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-users"></i></span>
+                                    <input type="number" name="guests" class="form-control" min="1" max="10" value="2" required>
+                                </div>
+                            </div>
+
+                            <!-- Table Selection -->
+                            <div class="mb-4">
+                                <label class="form-label">Select a Table</label>
+                                <div class="row">
+                                    {% for table in tables %}
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ table.name }}</h5>
+                                                <p class="card-text">
+                                                    <i class="fas fa-chair me-2"></i>Capacity: {{ table.capacity }} guests<br>
+                                                    <i class="fas fa-map-marker-alt me-2"></i>Location: {{ table.get_category_display }}
+                                                </p>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="table" id="table{{ table.id }}" value="{{ table.id }}" required>
+                                                    <label class="form-check-label" for="table{{ table.id }}">
+                                                        Select this table
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="col-12">
+                                        <div class="alert alert-info">
+                                            No tables are currently available. Please try again later.
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-calendar-check me-2"></i>Book Table
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Information Section -->
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body p-4">
+                        <h5 class="mb-3">Reservation Information</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-info-circle text-primary me-2"></i>Reservations are held for 15 minutes</li>
+                            <li class="mb-2"><i class="fas fa-clock text-primary me-2"></i>Please arrive on time</li>
+                            <li><i class="fas fa-phone text-primary me-2"></i>Call us for any changes: (123) 456-7890</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.input-group-text {
+    background-color: transparent;
+    border-right: none;
+}
+
+.form-control {
+    border-left: none;
+}
+
+.form-control:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}
+
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.input-group:focus-within .input-group-text,
+.input-group:focus-within .form-control {
+    border-color: #86b7fe;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %} 
